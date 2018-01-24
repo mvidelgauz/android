@@ -616,7 +616,7 @@ public final class DisplayUtils {
                                 break;
                             case R.id.nav_bar_photos:
                                 SearchEvent photosEvent = new SearchEvent("image/%",
-                                    SearchRemoteOperation.SearchType.CONTENT_TYPE_SEARCH,
+                                    SearchRemoteOperation.SearchType.PHOTO_SEARCH,
                                         SearchEvent.UnsetType.UNSET_DRAWER);
 
                                 switchToSearchFragment(activity, photosEvent);
