@@ -451,8 +451,16 @@ public abstract class DrawerActivity extends ToolbarActivity
                         SearchEvent.UnsetType.NO_UNSET), menuItem.getItemId());
                 break;
             case R.id.nav_photos:
-                handleSearchEvents(new SearchEvent("image/%", SearchRemoteOperation.SearchType.PHOTO_SEARCH,
-                                                   SearchEvent.UnsetType.NO_UNSET), menuItem.getItemId());
+                SearchEvent searchEvent = new SearchEvent("image/%",
+                                                          SearchRemoteOperation.SearchType.PHOTO_SEARCH,
+                                                          SearchEvent.UnsetType.NO_UNSET);
+
+                Intent intent = new Intent(getApplicationContext(), FileDisplayActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setAction(Intent.ACTION_SEARCH);
+                intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
+                intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItem.getItemId());
+                startActivity(intent);
                 break;
             case R.id.nav_on_device:
                 EventBus.getDefault().post(new ChangeMenuEvent());

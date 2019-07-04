@@ -110,12 +110,10 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private UserAccountManager accountManager;
     private List<OCFile> mFiles = new ArrayList<>();
     private List<OCFile> mFilesAll = new ArrayList<>();
-    private boolean mJustFolders; // todo check
     private boolean mHideItemOptions;
     private long lastTimestamp;
-
-    private boolean gridView = false;
-    private boolean multiSelect = false;
+    private boolean gridView;
+    private boolean multiSelect;
     private Set<OCFile> checkedFiles;
 
     private FileDataStorageManager mStorageManager;
@@ -136,7 +134,6 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Setter private OCFile highlightedItem;
 
     public OCFileListAdapter(
-        boolean justFolders,
         Context context,
         Account account,
         AppPreferences preferences,
@@ -146,8 +143,8 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         boolean argHideItemOptions,
         boolean gridView
     ) {
+
         this.ocFileListFragmentInterface = ocFileListFragmentInterface;
-        mJustFolders = justFolders;
         mContext = context;
         this.preferences = preferences;
         this.accountManager = accountManager;
@@ -730,6 +727,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (storageManager != null && mStorageManager == null) {
             mStorageManager = storageManager;
         }
+
         if (clear) {
             mFiles.clear();
         }
@@ -857,24 +855,6 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         preferences.setSortOrder(folder, sortOrder);
         mFiles = sortOrder.sortCloudFiles(mFiles);
         notifyDataSetChanged();
-    }
-
-    /**
-     * Filter for getting only the folders
-     *
-     * @param files Collection of files to filter
-     * @return Folders in the input
-     */
-    public ArrayList<OCFile> getFolders(ArrayList<OCFile> files) {
-        ArrayList<OCFile> ret = new ArrayList<>();
-
-        for (OCFile file : files) {
-            if (file.isFolder()) {
-                ret.add(file);
-            }
-        }
-
-        return ret;
     }
 
     public Set<OCFile> getCheckedItems() {
