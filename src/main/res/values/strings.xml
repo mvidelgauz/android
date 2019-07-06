@@ -873,4 +873,9 @@
     <string name="copy_internal_link">Copy internal link</string>
     <string name="copy_internal_link_subline">Only works for users with access to this folder</string>
     <string name="failed_to_download">Failed to pass file to download manager</string>
+
+    <string name="acra_dialog_title">Nextcloud app crashed</string>
+    <string name="acra_dialog_info">Application crashed, but we captured a crash report. This report will <b>NOT</b> be sent without your review and acceptance.\n\nYou can open e-mail composer and review the content before sending it to us.\n\nThe crash report will contain so called stacktrace - a program location where the app crashed. It will <b>NOT</b> contain any sensitive data, login details nor your activity history.\n\nPlease bear in mind that the stacktrace is very often the only way we can troubleshoot the problem.</string>
+    <string name="acra_dialog_ok">Open e-mail composer</string>
+    <string name="acra_dialog_cancel">Don\'t send</string>
 </resources>

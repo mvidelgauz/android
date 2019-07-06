@@ -78,6 +78,12 @@ import com.owncloud.android.utils.PermissionUtil;
 import com.owncloud.android.utils.ReceiversHelper;
 import com.owncloud.android.utils.SecurityUtils;
 
+import org.acra.ACRA;
+import org.acra.ReportField;
+import org.acra.annotation.AcraCore;
+import org.acra.annotation.AcraDialog;
+import org.acra.annotation.AcraMailSender;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,6 +116,9 @@ import static com.owncloud.android.ui.activity.ContactsPreferenceActivity.PREFER
  * <p>
  * Contains methods to build the "static" strings. These strings were before constants in different classes
  */
+@AcraCore(buildConfigClass = BuildConfig.class, reportContent = { ReportField.STACK_TRACE })
+@AcraMailSender(mailTo = "", reportAsFile = false)
+@AcraDialog(reportDialogClass = com.nextcloud.client.diagnostics.CrashAcraDialog.class)
 public class MainApp extends MultiDexApplication implements
     HasActivityInjector,
     HasSupportFragmentInjector,
@@ -194,6 +203,7 @@ public class MainApp extends MultiDexApplication implements
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        ACRA.init(this);
         initGlobalContext(this);
         DaggerAppComponent.builder()
             .application(this)

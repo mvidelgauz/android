@@ -307,7 +307,7 @@
         <service android:name=".services.OperationsService" />
         <service android:name=".files.services.FileDownloader" />
         <service android:name=".files.services.FileUploader" />
-        <service android:name=".media.MediaService" />
+        <service android:name="com.nextcloud.client.media.PlayerService"/>
 
         <activity
             android:name=".ui.activity.PassCodeActivity"
@@ -386,6 +386,14 @@
             android:name=".ui.activity.SsoGrantPermissionActivity"
             android:exported="true"
             android:theme="@style/Theme.ownCloud.Dialog.NoTitle" />
+
+        <activity
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar"
+            android:name="com.nextcloud.client.diagnostics.CrashAcraDialog"
+            android:process=":acra"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>
