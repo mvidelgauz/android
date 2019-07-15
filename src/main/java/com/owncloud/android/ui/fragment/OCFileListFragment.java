@@ -139,7 +139,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         OCFileListBottomSheetActions,
         Injectable {
 
-    private static final String TAG = OCFileListFragment.class.getSimpleName();
+    protected static final String TAG = OCFileListFragment.class.getSimpleName();
 
     private static final String MY_PACKAGE = OCFileListFragment.class.getPackage() != null ?
             OCFileListFragment.class.getPackage().getName() : "com.owncloud.android.ui.fragment";
@@ -162,7 +162,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     private static final String KEY_FILE = MY_PACKAGE + ".extra.FILE";
 
-    private static final String KEY_CURRENT_SEARCH_TYPE = "CURRENT_SEARCH_TYPE";
+    protected static final String KEY_CURRENT_SEARCH_TYPE = "CURRENT_SEARCH_TYPE";
 
     private static final String DIALOG_CREATE_FOLDER = "DIALOG_CREATE_FOLDER";
     private static final String DIALOG_CREATE_DOCUMENT = "DIALOG_CREATE_DOCUMENT";
@@ -173,36 +173,36 @@ public class OCFileListFragment extends ExtendedListFragment implements
     @Inject UserAccountManager accountManager;
     protected FileFragment.ContainerActivity mContainerActivity;
 
-    private OCFile mFile;
-    private OCFileListAdapter mAdapter;
-    private boolean mOnlyFoldersClickable;
-    private boolean mFileSelectable;
+    protected OCFile mFile;
+    protected OCFileListAdapter mAdapter;
+    protected boolean mOnlyFoldersClickable;
+    protected boolean mFileSelectable;
 
-    private int mSystemBarActionModeColor;
-    private int mSystemBarColor;
-    private int mProgressBarActionModeColor;
-    private int mProgressBarColor;
+    protected int mSystemBarActionModeColor;
+    protected int mSystemBarColor;
+    protected int mProgressBarActionModeColor;
+    protected int mProgressBarColor;
 
-    private boolean mHideFab = true;
-    private ActionMode mActiveActionMode;
-    private OCFileListFragment.MultiChoiceModeListener mMultiChoiceModeListener;
+    protected boolean mHideFab = true;
+    protected ActionMode mActiveActionMode;
+    protected OCFileListFragment.MultiChoiceModeListener mMultiChoiceModeListener;
 
-    private BottomNavigationView bottomNavigationView;
+    protected BottomNavigationView bottomNavigationView;
 
-    private SearchType currentSearchType;
-    private boolean searchFragment;
-    private SearchEvent searchEvent;
-    private AsyncTask remoteOperationAsyncTask;
-    private String mLimitToMimeType;
+    protected SearchType currentSearchType;
+    protected boolean searchFragment;
+    protected SearchEvent searchEvent;
+    protected AsyncTask remoteOperationAsyncTask;
+    protected String mLimitToMimeType;
 
     @Inject DeviceInfo deviceInfo;
 
-    private enum MenuItemAddRemove {
+    protected enum MenuItemAddRemove {
         DO_NOTHING, REMOVE_SORT, REMOVE_GRID_AND_SORT, ADD_SORT, ADD_GRID_AND_SORT, ADD_GRID_AND_SORT_WITH_SEARCH,
         REMOVE_SEARCH
     }
 
-    private MenuItemAddRemove menuItemAddRemoveValue = MenuItemAddRemove.DO_NOTHING;
+    protected MenuItemAddRemove menuItemAddRemoveValue = MenuItemAddRemove.DO_NOTHING;
 
     private List<MenuItem> mOriginalMenuItems = new ArrayList<>();
 
@@ -392,7 +392,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         setTitle();
     }
 
-    private void prepareCurrentSearch(SearchEvent event) {
+    protected void prepareCurrentSearch(SearchEvent event) {
         if (isSearchEventSet(event)) {
 
             switch (event.getSearchType()) {
@@ -698,7 +698,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     /**
      * Init listener that will handle interactions in multiple selection mode.
      */
-    private void setChoiceModeAsMultipleModal(Bundle savedInstanceState) {
+    protected void setChoiceModeAsMultipleModal(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mMultiChoiceModeListener.loadStateFrom(savedInstanceState);
         }
@@ -944,6 +944,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
                             switch (currentSearchType) {
                                 case FAVORITE_SEARCH:
                                     type = VirtualFolderType.FAVORITE;
+                                    break;
+                                case PHOTO_SEARCH:
+                                    type = VirtualFolderType.PHOTOS;
                                     break;
                                 default:
                                     type = VirtualFolderType.NONE;
@@ -1343,7 +1346,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
     }
 
-    private void unsetAllMenuItems(final boolean unsetDrawer) {
+    protected void unsetAllMenuItems(final boolean unsetDrawer) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -1392,7 +1395,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     }
 
-    private void prepareActionBarItems(SearchEvent event) {
+    protected void prepareActionBarItems(SearchEvent event) {
         if (event != null) {
             switch (event.getSearchType()) {
                 case CONTENT_TYPE_SEARCH:
@@ -1643,28 +1646,22 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
     }
 
-    private void setTitle(@StringRes final int title) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null && ((FileDisplayActivity) getActivity()).getSupportActionBar() != null) {
-                    ThemeUtils.setColoredTitle(((FileDisplayActivity) getActivity()).getSupportActionBar(),
-                            title, getContext());
-                }
+    protected void setTitle(@StringRes final int title) {
+        getActivity().runOnUiThread(() -> {
+            if (getActivity() != null && ((FileDisplayActivity) getActivity()).getSupportActionBar() != null) {
+                ThemeUtils.setColoredTitle(((FileDisplayActivity) getActivity()).getSupportActionBar(),
+                                           title, getContext());
             }
         });
     }
 
-    private void setTitle(final String title) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    ActionBar actionBar = ((FileDisplayActivity) getActivity()).getSupportActionBar();
+    protected void setTitle(final String title) {
+        getActivity().runOnUiThread(() -> {
+            if (getActivity() != null) {
+                ActionBar actionBar = ((FileDisplayActivity) getActivity()).getSupportActionBar();
 
-                    if (actionBar != null) {
-                        ThemeUtils.setColoredTitle(actionBar, title, getContext());
-                    }
+                if (actionBar != null) {
+                    ThemeUtils.setColoredTitle(actionBar, title, getContext());
                 }
             }
         });
@@ -1733,7 +1730,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
     }
 
-    private boolean isSearchEventSet(SearchEvent event) {
+    protected boolean isSearchEventSet(SearchEvent event) {
         return event != null && !TextUtils.isEmpty(event.getSearchQuery()) && event.getSearchType() != null
             && event.getUnsetType() != null;
     }

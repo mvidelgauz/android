@@ -748,7 +748,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             FileSortOrder sortOrder = preferences.getSortOrderByFolder(folder);
             mFiles = sortOrder.sortCloudFiles(mFiles);
         } else {
-            mFiles = FileStorageUtils.sortOcFolderDescDateModified(mFiles);
+            mFiles = FileStorageUtils.sortOcFolderDescDateModifiedWithoutFavoritesFirst(mFiles);
         }
 
         mFilesAll.clear();
@@ -814,7 +814,9 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
         }
 
-        mStorageManager.deleteVirtuals(type);
+        if (clear) {
+            mStorageManager.deleteVirtuals(type);
+        }
 
         List<ContentValues> contentValues = new ArrayList<>();
 
