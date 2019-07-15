@@ -400,12 +400,6 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     currentSearchType = SearchType.FILE_SEARCH;
                     break;
 
-                case CONTENT_TYPE_SEARCH:
-                    if ("video/%".equals(event.getSearchQuery())) {
-                        currentSearchType = SearchType.VIDEO_SEARCH;
-                    }
-                    break;
-
                 case FAVORITE_SEARCH:
                     currentSearchType = SearchType.FAVORITE_SEARCH;
                     break;
@@ -1398,14 +1392,6 @@ public class OCFileListFragment extends ExtendedListFragment implements
     protected void prepareActionBarItems(SearchEvent event) {
         if (event != null) {
             switch (event.getSearchType()) {
-                case CONTENT_TYPE_SEARCH:
-                    if ("image/%".equals(event.getSearchQuery())) {
-                        menuItemAddRemoveValue = MenuItemAddRemove.REMOVE_GRID_AND_SORT;
-                    } else if ("video/%".equals(event.getSearchQuery())) {
-                        menuItemAddRemoveValue = MenuItemAddRemove.REMOVE_SEARCH;
-                    }
-                    break;
-
                 case FAVORITE_SEARCH:
                     menuItemAddRemoveValue = MenuItemAddRemove.REMOVE_SORT;
                     break;
@@ -1430,12 +1416,6 @@ public class OCFileListFragment extends ExtendedListFragment implements
             switch (event.getSearchType()) {
                 case FILE_SEARCH:
                     setEmptyListMessage(SearchType.FILE_SEARCH);
-                    break;
-
-                case CONTENT_TYPE_SEARCH:
-                    if ("video/%".equals(event.getSearchQuery())) {
-                        setEmptyListMessage(SearchType.VIDEO_SEARCH);
-                    }
                     break;
 
                 case FAVORITE_SEARCH:
